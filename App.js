@@ -44,21 +44,34 @@
 
 
 import React from 'react';
-import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
-import { ThemeProvider } from './Theme/ThemeContext';
-// import MainScreen from './MainScreen';
-import Settings from './Screen/Settings';
+import { View, Text, useColorScheme, StyleSheet } from 'react-native';
 
 const App = () => {
-  const deviceColorScheme = useColorScheme(); // 'light', 'dark', or null
+  const colorScheme = useColorScheme();
+  console.log('====================================');
+  console.log(colorScheme);
+  console.log('====================================');
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: colorScheme === 'dark' ? '#121212' : '#FFFFFF',
+    },
+    text: {
+      color: colorScheme === 'dark' ? '#FFFFFF' : 'red',
+    },
+  });
 
   return (
-    <AppearanceProvider>
-      <ThemeProvider>
-        <Settings deviceColorScheme={deviceColorScheme} />
-      </ThemeProvider>
-    </AppearanceProvider>
+    <View style={styles.container}>
+      <Text style={styles.text}>
+        This is a text component in {colorScheme} mode.
+      </Text>
+    </View>
   );
 };
 
 export default App;
+
