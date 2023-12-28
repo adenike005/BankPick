@@ -43,35 +43,85 @@
 
 
 
-import React from 'react';
-import { View, Text, useColorScheme, StyleSheet } from 'react-native';
+// import React, {useState} from 'react';
+// import { View, Text, StyleSheet, Appearance } from 'react-native';
+
+// const App = () => {
+//   // const colorScheme = useColorScheme();
+//   // console.log('====================================');
+//   // console.log(colorScheme);
+//   // console.log('====================================');
+
+//   const [theme, SetTheme] = useState(Appearance.getColorScheme());
+//   Appearance.addChangeListener((Scheme) =>{
+//     console.log(Scheme);
+//   })
+
+//   const styles = StyleSheet.create({
+//     container: {
+//       flex: 1,
+//       justifyContent: 'center',
+//       alignItems: 'center',
+//       // backgroundColor: colorScheme === 'dark' ? '#121212' : '#FFFFFF',
+//     },
+//     // text: {
+//     //   // color: colorScheme === 'dark' ? '#FFFFFF' : 'red',
+//     // },
+//   });
+
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.text}>
+//         This is a text componentssss in mode.
+//       </Text>
+//     </View>
+//   );
+// };
+
+// export default App;
+
+
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Appearance } from 'react-native';
 
 const App = () => {
-  const colorScheme = useColorScheme();
-  console.log('====================================');
-  console.log(colorScheme);
-  console.log('====================================');
+  const [theme, setTheme] = useState(Appearance.getColorScheme());
+
+  useEffect(() => {
+    const appearanceListener = Appearance.addChangeListener(({ colorScheme }) => {
+      console.log('Device appearance changed to:', colorScheme);
+      setTheme(colorScheme);
+    });
+
+    return () => {
+      appearanceListener.remove();
+    };
+  }, []);
 
   const styles = StyleSheet.create({
     container: {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: colorScheme === 'dark' ? '#121212' : '#FFFFFF',
+      backgroundColor: theme === 'dark' ? '#121212' : '#FFFFFF',
     },
     text: {
-      color: colorScheme === 'dark' ? '#FFFFFF' : 'red',
+      color: theme === 'dark' ? '#FFFFFF' : 'red',
     },
   });
 
   return (
     <View style={styles.container}>
       <Text style={styles.text}>
-        This is a text component in {colorScheme} mode.
+        This is a text component in {theme} mode.
       </Text>
     </View>
   );
 };
 
 export default App;
+
+
+
+
 
